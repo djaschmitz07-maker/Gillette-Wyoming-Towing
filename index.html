@@ -1,0 +1,2339 @@
+<style>
+        :root {
+            --primary-color: #212121; /* Very Dark Gray/Black - Professional, strong */
+            --secondary-color: #FFD700; /* Gold/Bright Yellow - High visibility, emergency, action */
+            --accent-color: #B0BEC5; /* Light Blue-Gray - Neutral, clean */
+            --text-light: #ECF0F1; /* Off-white */
+            --text-dark: #424242; /* Dark Gray */
+            --header-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--text-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--secondary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+            position: relative; /* For dropdown */
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s ease;
+            display: block; /* Ensure padding works */
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Dropdown for Services */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: var(--primary-color);
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            top: 100%; /* Position below the parent link */
+            left: 0;
+            padding: 10px 0;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .dropdown-menu li {
+            margin: 0;
+        }
+
+        .dropdown-menu li a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: normal;
+        }
+
+        .dropdown-menu li a::after {
+            display: none; /* Hide underline for dropdown items */
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-dark); /* Changed to dark text for better contrast on yellow */
+        }
+
+        nav ul li.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* CSS Hamburger Icon */
+        .hamburger-icon {
+            display: none; /* Hidden by default on desktop */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px; /* Adjust size as needed */
+            height: 25px;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001; /* Ensure it's above other content */
+        }
+
+        .hamburger-icon .bar {
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-light); /* White bars */
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-menu.active {
+            transform: translateX(0);
+        }
+
+        main {
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        section {
+            padding: 80px 5%; /* Default padding for sections */
+            min-height: calc(100vh - var(--header-height));
+            display: none; /* Hidden by default for single-page navigation */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Full-width banner sections */
+        .hero-section, .service-page-section {
+            padding: 0; /* Remove padding for these specific sections */
+            min-height: auto; /* Adjust min-height as banner handles it */
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('https://via.placeholder.com/1920x1080/333333/FFFFFF?text=Gillette+Towing+Hero') no-repeat center center/cover;
+            color: var(--text-light);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - var(--header-height));
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.5s ease-out; /* For scroll fade */
+        }
+
+        .hero-content { /* New div for content inside hero */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%; /* Add padding to the content inside */
+            height: 100%; /* Ensure it takes full height of banner */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .cta-button { /* Unified CTA button style */
+            background-color: var(--secondary-color);
+            color: var(--text-dark); /* Changed to dark text for better contrast on yellow */
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+            opacity: 0;
+            border: none;
+            cursor: pointer;
+            display: inline-block; /* For buttons that are links */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial subtle shadow */
+        }
+
+        .cta-button:hover {
+            background-color: #FFC107; /* Slightly darker yellow */
+            transform: translateY(-7px) scale(1.02); /* More lift and slight scale */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 992px) { /* For larger screens, enforce 3 columns */
+            .content-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 768px) { /* For medium screens, 2 columns */
+            .content-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+        @media (max-width: 480px) { /* For small screens, 1 column */
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px) rotateZ(1deg); /* Slight lift and rotation */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .card p {
+            color: var(--text-dark);
+            font-size: 1rem;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.5s ease;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.03);
+        }
+
+        /* NEW FLIP CARD STYLES */
+        .service-item {
+            position: relative;
+            perspective: 1000px; /* For 3D effect */
+            height: 380px; /* Increased height for more content */
+            min-height: 300px; /* Ensure some base height */
+            transform-style: preserve-3d; /* Crucial for 3D transforms */
+            background-color: transparent; /* Parent is transparent, children have background */
+            border: none; /* Remove border from parent, apply to children */
+            box-shadow: none; /* Remove shadow from parent, apply to children */
+            transition: none; /* Remove previous transform transition from parent */
+        }
+
+        .service-item:hover {
+            transform: none; /* Remove previous hover effects */
+            box-shadow: none;
+        }
+
+        .service-content { /* Wrapper for front/back faces */
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            /* Adjusted transition for a slower, smoother flip */
+            transition: transform 1.0s cubic-bezier(0.4, 0.2, 0.2, 1); /* Slower transition */
+        }
+
+        .service-item.flipped .service-content {
+            transform: rotateY(180deg);
+        }
+
+        .service-front, .service-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hide the back of the element when facing away */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #ffffff;
+            border-left: 5px solid var(--secondary-color);
+            transition: box-shadow 0.3s ease; /* Add shadow transition */
+        }
+
+        .service-item:hover .service-front,
+        .service-item:hover .service-back {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+        }
+
+        .service-back {
+            transform: rotateY(180deg); /* Initially hide the back face */
+            background-color: var(--primary-color); /* Different background for back */
+            color: var(--text-light);
+            border-left: 5px solid var(--accent-color); /* Different border for back */
+        }
+
+        .service-back h3 {
+            color: var(--text-light); /* Adjust text color for dark background */
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .service-back p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .service-back .cta-button {
+            background-color: var(--secondary-color);
+            color: var(--text-dark); /* Changed to dark text for better contrast on yellow */
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-back .cta-button:hover {
+            background-color: #FFC107; /* Darker yellow */
+            transform: translateY(-3px);
+        }
+        /* END NEW FLIP CARD STYLES */
+
+
+        .contact-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .contact-form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-form-container input[type="text"],
+        .contact-form-container input[type="email"],
+        .contact-form-container input[type="tel"],
+        .contact-form-container textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-form-container input[type="text"]:focus,
+        .contact-form-container input[type="email"]:focus,
+        .contact-form-container input[type="tel"]:focus,
+        .contact-form-container textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2); /* Secondary color with transparency */
+            outline: none;
+        }
+
+        .contact-form-container textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .contact-form-container button[type="submit"] {
+            background-color: var(--secondary-color);
+            color: var(--text-dark); /* Changed to dark text for better contrast on yellow */
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .contact-form-container button[type="submit"]:hover {
+            background-color: #FFC107; /* Darker yellow */
+            transform: translateY(-3px);
+        }
+
+        .contact-info-block {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-info-block p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .contact-info-block a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info-block a:hover {
+            color: #FFC107; /* Darker yellow */
+            text-decoration: underline;
+        }
+
+        .reviews-section {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .review-form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--secondary-color);
+            margin-bottom: 50px;
+        }
+
+        .review-form-container h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            direction: rtl; /* For right-to-left star selection */
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 0 5px;
+            transition: color 0.2s ease;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input[type="radio"]:checked ~ label {
+            color: gold;
+        }
+
+        .review-form-container input[type="text"],
+        .review-form-container input[type="email"],
+        .review-form-container textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-form-container input[type="text"]:focus,
+        .review-form-container input[type="email"]:focus,
+        .review-form-container textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+            outline: none;
+        }
+
+        .review-form-container textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .review-form-container button[type="submit"] {
+            background-color: var(--secondary-color);
+            color: var(--text-dark); /* Changed to dark text for better contrast on yellow */
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 100%;
+        }
+
+        .review-form-container button[type="submit"]:hover {
+            background-color: #FFC107; /* Darker yellow */
+            transform: translateY(-3px);
+        }
+
+        .existing-reviews {
+            margin-top: 50px;
+        }
+
+        .existing-reviews h3 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .review-item {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .review-item .stars {
+            color: gold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .review-item .reviewer-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .review-item .review-text {
+            color: var(--text-dark);
+            font-style: italic;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 40px 5%;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-section p, .footer-section a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-bottom: 8px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Interactive elements */
+        .interactive-element {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-element::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.4s ease-out;
+            z-index: 1; /* Ensure it's above the card/item itself */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .interactive-element:hover::before {
+            left: 100%;
+        }
+
+        /* Apply to cards, service items, ranking items */
+        .card, .review-item {
+            position: relative; /* Needed for ::before pseudo-element */
+            overflow: hidden;
+        }
+
+        .card::before, .review-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease-out;
+            z-index: 1;
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .card:hover::before, .review-item:hover::before {
+            left: 100%;
+        }
+
+        /* For service-item, the ::before needs to be on the .service-content or handled differently */
+        .service-item .service-front::before,
+        .service-item .service-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease-out;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .service-item:hover .service-front::before,
+        .service-item:hover .service-back::before {
+            left: 100%;
+        }
+
+
+        /* Specific banner styles for service pages */
+        .service-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)) no-repeat center center/cover;
+            color: var(--text-light);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 40vh; /* Shorter banner for service pages */
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 50px;
+            transition: opacity 0.5s ease-out; /* For scroll fade */
+        }
+
+        .service-banner-content { /* New div for content inside service banner */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%; /* Add padding to the content inside */
+            height: 100%; /* Ensure it takes full height of banner */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .service-banner h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .service-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Mouse particle effect */
+        .mouse-particle {
+            position: fixed;
+            background-color: rgba(100, 100, 100, 0.7); /* Gray dust cloud */
+            border-radius: 50%;
+            pointer-events: none; /* Allow clicks to pass through */
+            transform: scale(0); /* Start small */
+            opacity: 1;
+            animation: fadeOutShrink 2s forwards; /* Animation for fading and shrinking, twice as slow */
+            z-index: 9999; /* Ensure it's on top */
+        }
+
+        @keyframes fadeOutShrink {
+            0% {
+                transform: scale(0.5); /* Start at half of its final size */
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5); /* End at 1.5 times its initial size */
+                opacity: 0;
+            }
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .header-content {
+                width: 95%;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            nav ul {
+                display: none; /* Hide desktop nav */
+            }
+
+            .hamburger-icon {
+                display: flex; /* Show hamburger */
+            }
+
+            /* Hamburger animation for active state */
+            .hamburger-icon.active .bar:nth-child(1) {
+                transform: translateY(11px) rotate(45deg);
+            }
+            .hamburger-icon.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger-icon.active .bar:nth-child(3) {
+                transform: translateY(-11px) rotate(-45deg);
+            }
+
+            /* Mobile Nav Menu (full screen overlay) */
+            .nav-menu {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                width: 100%;
+                height: calc(100vh - var(--header-height));
+                background-color: var(--primary-color);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                padding: 20px 0;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                overflow-y: auto; /* Allow scrolling for many links */
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+
+            .nav-menu li {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .nav-menu li a {
+                font-size: 1.2rem;
+                padding: 10px 0;
+                display: block;
+            }
+
+            /* Mobile dropdown for services */
+            .dropdown-menu {
+                position: static; /* Remove absolute positioning */
+                display: none;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.8); /* Slightly lighter for sub-items */
+                box-shadow: none;
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .nav-menu li.dropdown.active .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-menu li a {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-image {
+                order: -1; /* Image above text on mobile */
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-section {
+                text-align: center;
+                width: 100%;
+            }
+
+            .footer-section h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .service-banner h2 {
+                font-size: 2rem;
+            }
+
+            .service-banner p {
+                font-size: 1rem;
+            }
+
+            .service-item {
+                height: auto; /* Allow height to adjust on smaller screens */
+                min-height: 300px; /* Maintain a minimum height */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .card, .service-item, .review-form-container {
+                padding: 20px;
+            }
+
+            .star-rating label {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo" onclick="showSection('home'); return false;">Gillette Wyoming Towing</a>
+            <nav>
+                <div class="hamburger-icon" id="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link" data-section="services-parent">Services <span style="font-size: 0.8em;">&#9662;</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#emergency-towing" class="nav-link" data-section="emergency-towing">Emergency Towing</a></li>
+                            <li><a href="#roadside-assistance" class="nav-link" data-section="roadside-assistance">Roadside Assistance</a></li>
+                            <li><a href="#vehicle-recovery" class="nav-link" data-section="vehicle-recovery">Vehicle Recovery</a></li>
+                            <li><a href="#flatbed-towing" class="nav-link" data-section="flatbed-towing">Flatbed Towing</a></li>
+                            <li><a href="#heavy-duty-towing" class="nav-link" data-section="heavy-duty-towing">Heavy Duty Towing</a></li>
+                            <li><a href="#motorcycle-towing" class="nav-link" data-section="motorcycle-towing">Motorcycle Towing</a></li>
+                            <li><a href="#long-distance-towing" class="nav-link" data-section="long-distance-towing">Long Distance Towing</a></li>
+                            <li><a href="#junk-car-removal" class="nav-link" data-section="junk-car-removal">Junk Car Removal</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                    <li><a href="#reviews" class="nav-link" data-section="reviews">Reviews</a></li>
+                    <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="active hero-section">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Gillette Wyoming Towing: Your Roadside Lifeline</h1>
+                    <p>Stuck on the side of the road in Gillette, WY? Gillette Wyoming Towing offers fast, reliable, and professional towing and roadside assistance 24/7. We're here to get you back on track, safely and efficiently.</p>
+                    <button class="cta-button" onclick="showSection('contact'); return false;">Call for Immediate Assistance!</button>
+                </div>
+            </div>
+
+            <div style="padding: 80px 2%; background-color: var(--text-light);">
+                <h2 class="section-title">Why Choose Gillette Wyoming Towing?</h2>
+                <div class="content-grid">
+                    <div class="card interactive-element">
+                        <h3>24/7 Rapid Response</h3>
+                        <p>We're available around the clock, ensuring quick dispatch and arrival when you need us most in Gillette and surrounding areas.</p>
+                    </div>
+                    <div class="card interactive-element">
+                        <h3>Professional & Experienced</h3>
+                        <p>Our certified operators handle your vehicle with care, using state-of-the-art equipment for safe and damage-free towing.</p>
+                    </div>
+                    <div class="card interactive-element">
+                        <h3>Local & Trusted</h3>
+                        <p>Proudly serving the Gillette community, we're your neighbors, committed to providing honest, transparent, and reliable service.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 80px 2%; background-color: #ffffff;">
+                <h2 class="section-title">Our Core Towing & Roadside Services</h2>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Emergency Towing</h3>
+                                <p>Fast and reliable towing for breakdowns, accidents, or any roadside emergency, available 24/7.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Emergency Towing</h3>
+                                <p>When unexpected breakdowns or accidents leave you stranded, our emergency towing service provides rapid response to get your vehicle safely off the road and to your desired destination, any time of day or night.</p>
+                                <a href="#emergency-towing" class="cta-button" onclick="showSection('emergency-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Roadside Assistance</h3>
+                                <p>Flat tire, dead battery, lockout, or out of gas? We're here to help with quick and efficient roadside solutions.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Roadside Assistance</h3>
+                                <p>Don't let minor issues ruin your day. Our comprehensive roadside assistance includes jump-starts, tire changes, fuel delivery, and vehicle lockout services, designed to get you moving again with minimal delay.</p>
+                                <a href="#roadside-assistance" class="cta-button" onclick="showSection('roadside-assistance'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Vehicle Recovery</h3>
+                                <p>Safe and efficient recovery for vehicles stuck in ditches, mud, snow, or involved in accidents.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Vehicle Recovery</h3>
+                                <p>Whether you're stuck off-road, in a ditch, or need post-accident recovery, our skilled team uses specialized equipment for safe and damage-free vehicle extraction and transport, no matter the situation.</p>
+                                <a href="#vehicle-recovery" class="cta-button" onclick="showSection('vehicle-recovery'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="#emergency-towing" class="cta-button" onclick="showSection('emergency-towing'); return false;">View All Services</a>
+                </div>
+            </div>
+
+            <div style="padding: 80px 2%; background-color: var(--text-light);">
+                <h2 class="section-title">What Our Clients Say</h2>
+                <div class="content-grid">
+                    <div class="review-item interactive-element">
+                        <div class="stars">★★★★★</div>
+                        <p class="reviewer-name">John D. from Gillette</p>
+                        <p class="review-text">"My car broke down late at night. Gillette Wyoming Towing arrived incredibly fast and got me off the highway safely. Professional and courteous service!"</p>
+                    </div>
+                    <div class="review-item interactive-element">
+                        <div class="stars">★★★★★</div>
+                        <p class="reviewer-name">Sarah P. from Wright</p>
+                        <p class="review-text">"Had a flat tire on a rural road. Their roadside assistance was a lifesaver! Quick, efficient, and very friendly. Highly recommend!"</p>
+                    </div>
+                    <div class="review-item interactive-element">
+                        <div class="stars">★★★★★</div>
+                        <p class="reviewer-name">Mike R. from Rozet</p>
+                        <p class="review-text">"Needed a heavy-duty tow for my truck. Gillette Wyoming Towing handled it with ease. Their equipment is top-notch, and the driver was very experienced. Great service!"</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="#reviews" class="cta-button" onclick="showSection('reviews'); return false;">Read More Reviews</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Individual Service Sections -->
+        <section id="emergency-towing" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/555555/FFFFFF?text=Emergency+Towing+Gillette');">
+                <div class="service-banner-content">
+                    <h2>24/7 Emergency Towing in Gillette, WY</h2>
+                    <p>When the unexpected happens, Gillette Wyoming Towing is your reliable partner for immediate and safe emergency towing services, day or night.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">Rapid Response for Your Roadside Emergencies</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">Breakdowns and accidents don't adhere to a schedule, which is why Gillette Wyoming Towing offers 24/7 emergency towing services throughout Gillette, WY, and surrounding areas. Our priority is your safety and getting your vehicle to a secure location as quickly as possible. With a fleet of well-maintained tow trucks and experienced operators, we're always ready to respond to your call, providing professional and damage-free towing for all types of vehicles.</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Accident Towing</h3>
+                                <p>Safe and efficient towing for vehicles involved in collisions, ensuring prompt removal from the scene and transport to a repair shop or secure lot.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Accident Towing</h3>
+                                <p>After an accident, we provide sensitive and efficient towing services to clear the scene, transport your damaged vehicle to a designated repair facility or secure storage, and help ease your stress during a difficult time.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Breakdown Towing</h3>
+                                <p>Whether it's an engine failure, transmission issue, or electrical problem, we'll tow your disabled vehicle to a mechanic of your choice.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Breakdown Towing</h3>
+                                <p>When your vehicle unexpectedly breaks down, our team is ready to provide prompt towing to the repair shop of your choice. We handle all types of mechanical failures, ensuring your vehicle is transported safely and efficiently.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Emergency Winch-Outs</h3>
+                                <p>Stuck in mud, snow, or a ditch? Our specialized winch-out services can safely extract your vehicle without causing further damage.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Emergency Winch-Outs</h3>
+                                <p>If your vehicle is stuck in challenging terrain like mud, snow, or a ditch, our powerful winch-out equipment and experienced operators can safely extract it, minimizing damage and getting you back on solid ground.</p>
+                                <a href="#vehicle-recovery" class="cta-button" onclick="showSection('vehicle-recovery'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>24/7 Availability</h3>
+                                <p>Our dispatch and towing teams are on standby 24 hours a day, 7 days a week, including holidays, for your peace of mind.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>24/7 Availability</h3>
+                                <p>Emergencies don't wait, and neither do we. Our services are available around the clock, every day of the year, ensuring that help is always just a phone call away, whenever you need it most.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Damage-Free Towing</h3>
+                                <p>We use modern, well-maintained tow trucks and proper techniques to ensure your vehicle is transported without any additional damage.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Damage-Free Towing</h3>
+                                <p>Your vehicle's safety is our top priority. We employ state-of-the-art towing equipment and adhere to strict safety protocols to ensure your car, truck, or motorcycle is transported without a scratch, from pickup to drop-off.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Local & Long-Distance</h3>
+                                <p>Whether you need a tow across town or to a neighboring city, we provide reliable emergency towing for both local and long-distance needs.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Local & Long-Distance</h3>
+                                <p>Our emergency towing services cover both local distances within Gillette and extended hauls to other cities. No matter how far your destination, we ensure a safe and timely transport for your vehicle.</p>
+                                <a href="#long-distance-towing" class="cta-button" onclick="showSection('long-distance-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">Don't get stranded. For fast and professional emergency towing in Gillette, WY, trust Gillette Wyoming Towing. Call us anytime!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Call for Emergency Towing: 307-414-6029</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadside-assistance" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/444444/FFFFFF?text=Roadside+Assistance+Gillette');">
+                <div class="service-banner-content">
+                    <h2>Reliable Roadside Assistance in Gillette, WY</h2>
+                    <p>From flat tires to dead batteries, Gillette Wyoming Towing provides quick and efficient roadside assistance to get you back on the road.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">Quick Solutions for Common Roadside Issues</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">A minor vehicle issue can quickly become a major headache when you're on the side of the road. Gillette Wyoming Towing offers comprehensive roadside assistance services in Gillette, WY, designed to resolve common problems quickly and safely. Our skilled technicians are equipped to handle everything from a simple jump-start to a tire change, ensuring you spend less time waiting and more time driving. We're just a call away, ready to provide the help you need.</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Flat Tire Change</h3>
+                                <p>Don't get stuck with a flat. We'll quickly and safely change your tire with your spare, or tow you to a tire shop if needed.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Flat Tire Change</h3>
+                                <p>A flat tire can happen anywhere. Our team will promptly arrive to change your flat tire with your spare, or if you don't have one, we can tow your vehicle to the nearest tire repair facility, ensuring your safety.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call for Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Battery Jump-Start</h3>
+                                <p>Dead battery? We'll provide a quick and safe jump-start to get your vehicle running again, saving you time and hassle.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Battery Jump-Start</h3>
+                                <p>A dead battery can leave you stranded. Our technicians are equipped with portable jump-start units to quickly and safely revive your vehicle's battery, getting you back on your way without delay.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call for Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Fuel Delivery</h3>
+                                <p>Ran out of gas? We'll deliver enough fuel to get you to the nearest gas station, so you can continue your journey without worry.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Fuel Delivery</h3>
+                                <p>Accidentally run out of gas? Don't worry. We'll deliver enough fuel directly to your location to get you to the nearest gas station, ensuring you can continue your journey with minimal interruption.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call for Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Vehicle Lockout Service</h3>
+                                <p>Locked your keys in your car? Our skilled technicians can safely unlock your vehicle without causing damage.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Vehicle Lockout Service</h3>
+                                <p>Locked your keys inside your car? Our experienced technicians use specialized tools to safely and quickly unlock your vehicle, ensuring no damage to your doors or windows, and getting you back inside your car.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call for Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Minor Mechanical Assistance</h3>
+                                <p>For small issues that can be fixed on-site, our team can provide minor mechanical assistance to get your vehicle operational.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Minor Mechanical Assistance</h3>
+                                <p>Sometimes, a small issue can be resolved right on the spot. Our team can provide minor mechanical assistance for simple problems, potentially saving you a tow and getting you back on the road faster.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call for Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>24/7 Availability</h3>
+                                <p>Our roadside assistance is available 24 hours a day, 7 days a week, so you're never left stranded, no matter the time.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>24/7 Availability</h3>
+                                <p>Our roadside assistance services are available around the clock, every day of the year. Whether it's early morning or late at night, you can count on us to be there when you need help the most, ensuring your safety and peace of mind.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Call for Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">For fast, friendly, and professional roadside assistance in Gillette, WY, trust Gillette Wyoming Towing. We're always ready to help!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Get Roadside Help Now: 307-414-6029</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="vehicle-recovery" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/666666/FFFFFF?text=Vehicle+Recovery+Gillette');">
+                <div class="service-banner-content">
+                    <h2>Professional Vehicle Recovery in Gillette, WY</h2>
+                    <p>Stuck in a tough spot? Gillette Wyoming Towing offers expert vehicle recovery services for off-road incidents, ditches, mud, snow, and more.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">Safe & Efficient Recovery for Any Situation</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">Getting your vehicle stuck can be a frustrating and potentially dangerous situation. Gillette Wyoming Towing specializes in professional vehicle recovery services across Gillette, WY. Our team is equipped with advanced winching and recovery gear, along with the expertise to safely extract your vehicle from challenging environments like ditches, mud, snow, or off-road terrains. We prioritize damage-free recovery, ensuring your vehicle is handled with the utmost care from start to finish.</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Winch-Out Service</h3>
+                                <p>Expert winch-out services for vehicles stuck in mud, sand, snow, or ditches, using powerful equipment for safe extraction.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Winch-Out Service</h3>
+                                <p>Our specialized winch-out service is designed for vehicles stuck in challenging conditions. We use heavy-duty winches and careful techniques to safely pull your car, truck, or SUV out of mud, snow, sand, or ditches without causing additional damage.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Recovery</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Off-Road Recovery</h3>
+                                <p>Experienced in recovering vehicles from various off-road situations, ensuring safe retrieval from remote or difficult-to-access locations.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Off-Road Recovery</h3>
+                                <p>Exploring Wyoming's backcountry can sometimes lead to unexpected challenges. Our team is experienced in off-road recovery, equipped to reach and safely extract vehicles from remote or difficult terrains, minimizing environmental impact.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Recovery</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Accident Scene Recovery</h3>
+                                <p>After an accident, we provide careful recovery of damaged vehicles, ensuring the scene is cleared efficiently and your vehicle is transported securely.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Accident Scene Recovery</h3>
+                                <p>In the aftermath of an accident, our team provides sensitive and professional recovery services. We safely remove damaged vehicles from the scene, ensuring proper handling and transport to a repair facility or secure storage, assisting you through a stressful time.</p>
+                                <a href="#emergency-towing" class="cta-button" onclick="showSection('emergency-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Rollover Recovery</h3>
+                                <p>Specialized equipment and training for safely righting and recovering vehicles that have rolled over, minimizing further damage.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Rollover Recovery</h3>
+                                <p>Rollover incidents require specialized expertise. Our team is trained and equipped with the necessary tools to safely right and recover vehicles that have rolled over, prioritizing safety and minimizing any additional damage during the complex process.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Recovery</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Heavy-Duty Recovery</h3>
+                                <p>Recovery services for larger vehicles, including commercial trucks, RVs, and buses, with specialized heavy-duty equipment.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Heavy-Duty Recovery</h3>
+                                <p>Our capabilities extend to heavy-duty vehicle recovery. We have the specialized trucks and equipment to safely recover large commercial vehicles, RVs, buses, and other heavy machinery from challenging situations, ensuring professional handling.</p>
+                                <a href="#heavy-duty-towing" class="cta-button" onclick="showSection('heavy-duty-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>24/7 Emergency Recovery</h3>
+                                <p>Our recovery team is available around the clock, ready to respond to your emergency recovery needs at any time, day or night.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>24/7 Emergency Recovery</h3>
+                                <p>Vehicle recovery needs can arise at any moment. Our emergency recovery services are available 24/7, ensuring that no matter when or where you get stuck, our professional team is ready to provide prompt and effective assistance.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Recovery</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">When you're in a bind, trust the experts at Gillette Wyoming Towing for safe and efficient vehicle recovery in Gillette, WY. Call us for immediate assistance!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Call for Vehicle Recovery: 307-414-6029</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="flatbed-towing" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/777777/FFFFFF?text=Flatbed+Towing+Gillette');">
+                <div class="service-banner-content">
+                    <h2>Secure Flatbed Towing in Gillette, WY</h2>
+                    <p>For safe and damage-free transport of all vehicles, choose Gillette Wyoming Towing's professional flatbed towing services.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">The Safest Way to Transport Your Vehicle</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">When it comes to transporting your vehicle, especially luxury cars, classic automobiles, all-wheel-drive vehicles, or those with significant damage, flatbed towing is the safest and most recommended method. Gillette Wyoming Towing provides professional flatbed towing services throughout Gillette, WY, ensuring your vehicle is securely loaded onto a flat platform and transported without any wear and tear on its drivetrain or suspension. Trust us for damage-free and reliable transport.</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Luxury & Classic Car Transport</h3>
+                                <p>Specialized flatbed towing for high-value, luxury, and classic vehicles, ensuring pristine condition during transport.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Luxury & Classic Car Transport</h3>
+                                <p>Your prized possession deserves the best care. Our flatbed towing service is ideal for luxury and classic cars, providing a secure, stable platform that eliminates road wear and protects your vehicle's pristine condition during transport.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Schedule Transport</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>All-Wheel-Drive (AWD) Towing</h3>
+                                <p>Essential for AWD and 4x4 vehicles, flatbed towing prevents potential damage to their complex drivetrain systems.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>All-Wheel-Drive (AWD) Towing</h3>
+                                <p>Flatbed towing is crucial for all-wheel-drive and 4x4 vehicles to prevent damage to their intricate drivetrain systems. We ensure all four wheels are off the ground, providing safe and compliant transport for your specialized vehicle.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Schedule Transport</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Motorcycle Transport</h3>
+                                <p>Secure and stable flatbed transport for motorcycles, using specialized tie-downs to prevent movement and damage.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Motorcycle Transport</h3>
+                                <p>Motorcycles require careful handling. Our flatbed towing service includes specialized motorcycle cradles and tie-downs, ensuring your bike is transported upright, stable, and completely damage-free, whether for a breakdown or relocation.</p>
+                                <a href="#motorcycle-towing" class="cta-button" onclick="showSection('motorcycle-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Damaged & Non-Running Vehicles</h3>
+                                <p>Ideal for vehicles that are non-operational or have sustained significant damage, allowing for safe loading and transport.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Damaged & Non-Running Vehicles</h3>
+                                <p>For vehicles that are non-operational, have severe damage, or are missing wheels, flatbed towing provides the safest loading and transport solution. We can carefully winch your vehicle onto the flatbed, ensuring secure transit to its destination.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Schedule Transport</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Equipment & Specialty Transport</h3>
+                                <p>Beyond cars, our flatbeds can transport small equipment, sheds, or other specialty items that require secure, ground-level loading.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Equipment & Specialty Transport</h3>
+                                <p>Our versatile flatbeds are not just for cars. We can also transport small equipment, toolboxes, sheds, or other specialty items that require a stable, ground-level loading platform, providing flexible transport solutions for your needs.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Schedule Transport</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Long-Distance Flatbed Towing</h3>
+                                <p>For extended journeys, flatbed towing offers the best protection against wear and tear, making it ideal for long-distance vehicle transport.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Long-Distance Flatbed Towing</h3>
+                                <p>When transporting your vehicle over long distances, flatbed towing is the superior choice. It eliminates mileage accumulation and protects your vehicle from road debris and wear, ensuring it arrives at its destination in the same condition it was loaded.</p>
+                                <a href="#long-distance-towing" class="cta-button" onclick="showSection('long-distance-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">For the ultimate in vehicle transport safety and peace of mind, choose flatbed towing from Gillette Wyoming Towing. Contact us for a quote in Gillette, WY!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Schedule Flatbed Towing: 307-414-6029</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="heavy-duty-towing" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/888888/FFFFFF?text=Heavy+Duty+Towing+Gillette');">
+                <div class="service-banner-content">
+                    <h2>Expert Heavy Duty Towing in Gillette, WY</h2>
+                    <p>Gillette Wyoming Towing provides specialized heavy-duty towing and recovery for commercial trucks, RVs, buses, and equipment.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">Powerful Solutions for Large Vehicle Transport</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">When large vehicles like semi-trucks, buses, RVs, or heavy equipment break down or are involved in an accident, you need a towing service with the right power and expertise. Gillette Wyoming Towing offers specialized heavy-duty towing and recovery services throughout Gillette, WY. Our fleet includes robust tow trucks and highly trained operators capable of handling the most challenging heavy-duty situations, ensuring safe and efficient transport for your valuable assets.</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Semi-Truck Towing</h3>
+                                <p>Reliable towing for tractor-trailers, big rigs, and commercial trucks, ensuring minimal downtime for your business.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Semi-Truck Towing</h3>
+                                <p>When your semi-truck is sidelined, every minute counts. We provide prompt and professional towing for tractor-trailers, big rigs, and commercial trucks, minimizing downtime and getting your valuable cargo back on schedule.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>RV & Bus Towing</h3>
+                                <p>Specialized towing for recreational vehicles (RVs) and buses, handled with care to protect your investment.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>RV & Bus Towing</h3>
+                                <p>RVs and buses require specific towing expertise. Our heavy-duty fleet is equipped to safely tow your recreational vehicle or bus, ensuring it reaches its destination without further damage, allowing you to resume your journey or operations.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Heavy Equipment Transport</h3>
+                                <p>Transport services for construction equipment, forklifts, generators, and other heavy machinery that requires specialized handling.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Heavy Equipment Transport</h3>
+                                <p>We offer reliable transport for heavy equipment such as construction machinery, forklifts, generators, and other industrial assets. Our specialized trailers and experienced operators ensure safe and efficient relocation of your valuable equipment.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Heavy-Duty Accident Recovery</h3>
+                                <p>Complex recovery operations for large vehicles involved in accidents, including rollovers and off-road incidents.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Heavy-Duty Accident Recovery</h3>
+                                <p>Accidents involving heavy vehicles are complex. Our team is trained and equipped for heavy-duty accident recovery, including rollovers and challenging extractions, ensuring the scene is cleared safely and efficiently with minimal disruption.</p>
+                                <a href="#vehicle-recovery" class="cta-button" onclick="showSection('vehicle-recovery'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Load Shifts & Transfers</h3>
+                                <p>Assistance with correcting shifted loads or transferring cargo between trailers to ensure safe and compliant transport.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Load Shifts & Transfers</h3>
+                                <p>A shifted load can be dangerous and non-compliant. We provide expert assistance for load shifts and transfers, safely repositioning or transferring cargo between trailers to ensure secure and legal transport, preventing further issues.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>24/7 Heavy-Duty Support</h3>
+                                <p>Our heavy-duty towing and recovery services are available 24/7, ensuring you have support whenever a large vehicle emergency arises.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>24/7 Heavy-Duty Support</h3>
+                                <p>Heavy-duty emergencies don't wait for business hours. Our specialized heavy-duty towing and recovery services are available 24 hours a day, 7 days a week, providing immediate and reliable support for your large vehicle needs.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">For professional and powerful heavy-duty towing and recovery in Gillette, WY, trust Gillette Wyoming Towing. We're equipped for the job!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Call for Heavy Duty Towing: 307-414-6029</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="motorcycle-towing" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/999999/FFFFFF?text=Motorcycle+Towing+Gillette');">
+                <div class="service-banner-content">
+                    <h2>Safe Motorcycle Towing in Gillette, WY</h2>
+                    <p>Gillette Wyoming Towing provides specialized, damage-free towing for motorcycles, ensuring your bike arrives safely at its destination.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">Specialized Care for Your Two-Wheeled Ride</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">Motorcycles require specific handling and care during towing to prevent damage. Gillette Wyoming Towing offers dedicated motorcycle towing services throughout Gillette, WY, utilizing specialized equipment and techniques to ensure your bike is transported safely and securely. Whether you've had a breakdown, an accident, or need to transport your motorcycle for any reason, our experienced operators treat your two-wheeled investment with the utmost respect and professionalism.</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Flatbed Motorcycle Transport</h3>
+                                <p>The safest method for motorcycle towing, our flatbeds keep your bike completely off the road, preventing any wear or damage.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Flatbed Motorcycle Transport</h3>
+                                <p>Our flatbed tow trucks are the preferred choice for motorcycle transport. Your bike is securely loaded onto a flat platform, keeping all wheels off the ground and preventing any road wear or potential damage during transit, ensuring it arrives in perfect condition.</p>
+                                <a href="#flatbed-towing" class="cta-button" onclick="showSection('flatbed-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Specialized Tie-Downs</h3>
+                                <p>We use soft straps and specialized tie-down systems to secure your motorcycle firmly without scratching or damaging its finish.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Specialized Tie-Downs</h3>
+                                <p>To ensure your motorcycle's safety, we use soft, non-abrasive straps and specialized tie-down techniques. This secures your bike firmly to the flatbed, preventing any movement or potential damage to its frame, paint, or components during transport.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Damage-Free Guarantee</h3>
+                                <p>Our experienced operators are trained in proper motorcycle loading and securing, guaranteeing damage-free transport for your bike.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Damage-Free Guarantee</h3>
+                                <p>We understand the value and care you put into your motorcycle. Our operators are meticulously trained in damage-free loading and securing techniques, providing you with peace of mind that your bike will be transported without a scratch.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Breakdown & Accident Towing</h3>
+                                <p>Whether it's a mechanical issue or an unfortunate accident, we provide prompt and careful towing for your motorcycle.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Breakdown & Accident Towing</h3>
+                                <p>From unexpected breakdowns to accident recovery, our team provides prompt and careful towing for your motorcycle. We ensure it's safely removed from the roadside and transported to a repair shop or your home, minimizing further stress.</p>
+                                <a href="#emergency-towing" class="cta-button" onclick="showSection('emergency-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Long-Distance Motorcycle Transport</h3>
+                                <p>Planning a move or need to transport your motorcycle across longer distances? Our flatbed service is ideal for secure long-haul transport.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Long-Distance Motorcycle Transport</h3>
+                                <p>For long-distance moves or transport, our flatbed motorcycle towing service offers superior protection. Your bike is secured for the entire journey, preventing road fatigue and ensuring it arrives at its new destination in perfect condition.</p>
+                                <a href="#long-distance-towing" class="cta-button" onclick="showSection('long-distance-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>24/7 Availability</h3>
+                                <p>Our motorcycle towing services are available 24 hours a day, 7 days a week, so help is always there when you need it.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>24/7 Availability</h3>
+                                <p>Motorcycle emergencies can happen at any time. Our dedicated motorcycle towing services are available 24/7, ensuring that no matter when you need assistance, our professional team is ready to provide prompt and careful transport for your bike.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Request Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">For the safest and most reliable motorcycle towing in Gillette, WY, trust the specialists at Gillette Wyoming Towing. Call us for expert service!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Call for Motorcycle Towing: 307-414-6029</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="long-distance-towing" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/AAAAAA/FFFFFF?text=Long+Distance+Towing+Gillette');">
+                <div class="service-banner-content">
+                    <h2>Reliable Long Distance Towing from Gillette, WY</h2>
+                    <p>Moving, buying, or selling a vehicle? Gillette Wyoming Towing offers secure and efficient long-distance towing services for all types of vehicles.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">Seamless Vehicle Transport Across Distances</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">Whether you're relocating, purchasing a vehicle from out of town, or need to transport a specialty car to a show, long-distance towing requires careful planning and reliable execution. Gillette Wyoming Towing provides professional long-distance towing services from Gillette, WY, to destinations across the region. We use flatbed tow trucks to ensure your vehicle is transported safely, securely, and without accumulating extra mileage or wear and tear, giving you peace of mind for the journey ahead.</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Flatbed Transport for Long Hauls</h3>
+                                <p>Our flatbed tow trucks are ideal for long-distance towing, keeping your vehicle completely off the road to prevent wear and tear.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Flatbed Transport for Long Hauls</h3>
+                                <p>For long-distance towing, our flatbed tow trucks offer the safest solution. Your vehicle is securely loaded onto a flat platform, ensuring it remains completely off the road, preventing any additional mileage, wear, or potential damage during the extended journey.</p>
+                                <a href="#flatbed-towing" class="cta-button" onclick="showSection('flatbed-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Vehicle Relocation Services</h3>
+                                <p>Seamless transport for personal vehicles when you're moving to a new city or state, making your relocation stress-free.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Vehicle Relocation Services</h3>
+                                <p>Relocating can be complex. Our long-distance towing simplifies vehicle transport for personal moves, ensuring your car arrives safely at your new home, allowing you to focus on other aspects of your relocation without added stress.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Dealership & Auction Transport</h3>
+                                <p>Reliable transport for dealerships acquiring new inventory or individuals buying vehicles from auctions in other towns.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Dealership & Auction Transport</h3>
+                                <p>We provide efficient and secure long-distance transport for dealerships acquiring new inventory, or for individuals purchasing vehicles from auctions or private sellers in other towns, ensuring timely and damage-free delivery.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Specialty & Classic Car Transport</h3>
+                                <p>Trust us with your valuable classic or specialty car for long-distance transport, handled with the utmost care and security.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Specialty & Classic Car Transport</h3>
+                                <p>Your classic or specialty vehicle deserves white-glove treatment. Our long-distance flatbed service ensures these valuable assets are transported with meticulous care, protected from road elements and wear, arriving in showroom condition.</p>
+                                <a href="#flatbed-towing" class="cta-button" onclick="showSection('flatbed-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Heavy-Duty Long Distance</h3>
+                                <p>Long-haul towing for commercial trucks, RVs, and other heavy vehicles, ensuring reliable transport across greater distances.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Heavy-Duty Long Distance</h3>
+                                <p>Our heavy-duty fleet is also available for long-distance transport of commercial trucks, RVs, and other large vehicles. We provide the power and expertise needed for secure and efficient long-haul towing, minimizing downtime and logistical challenges.</p>
+                                <a href="#heavy-duty-towing" class="cta-button" onclick="showSection('heavy-duty-towing'); return false;">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Transparent Pricing & Scheduling</h3>
+                                <p>We offer clear, upfront pricing and flexible scheduling to accommodate your long-distance towing needs.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Transparent Pricing & Scheduling</h3>
+                                <p>Planning long-distance transport should be straightforward. We provide transparent, upfront pricing with no hidden fees, and work with you to schedule transport at your convenience, ensuring a smooth and predictable experience.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">For dependable and secure long-distance towing from Gillette, WY, choose Gillette Wyoming Towing. Contact us today for a personalized quote!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Get a Long Distance Towing Quote</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="junk-car-removal" class="service-page-section">
+            <div class="service-banner" style="background-image: url('https://via.placeholder.com/1920x600/BBBBBB/FFFFFF?text=Junk+Car+Removal+Gillette');">
+                <div class="service-banner-content">
+                    <h2>Hassle-Free Junk Car Removal in Gillette, WY</h2>
+                    <p>Clear out that old, unwanted vehicle taking up space. Gillette Wyoming Towing offers quick and easy junk car removal services.</p>
+                </div>
+            </div>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 2%;">
+                <h2 class="section-title">Get Rid of Your Unwanted Vehicle Today!</h2>
+                <p style="margin-bottom: 20px; color: var(--text-dark);">Do you have an old, non-running, or unwanted vehicle taking up valuable space on your property? Gillette Wyoming Towing provides convenient and hassle-free junk car removal services throughout Gillette, WY. We make the process simple, offering prompt pickup and responsible disposal or recycling of your vehicle. Free up space, eliminate an eyesore, and let us handle the heavy lifting. Get a fair offer and clear your yard today!</p>
+                <div class="content-grid">
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Free Up Your Space</h3>
+                                <p>Remove that old, non-running vehicle from your driveway or yard and reclaim your valuable property space.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Free Up Your Space</h3>
+                                <p>An unwanted vehicle can be an eyesore and take up valuable space. Our junk car removal service helps you reclaim your driveway, garage, or yard, providing a clean and clutter-free environment for your property.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Quick & Easy Pickup</h3>
+                                <p>We offer prompt scheduling and efficient pickup of your junk vehicle, making the removal process as smooth as possible.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Quick & Easy Pickup</h3>
+                                <p>Our process is designed for your convenience. Simply contact us, and we'll arrange a quick and easy pickup of your junk vehicle at a time that works for you, ensuring a hassle-free removal experience.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Responsible Disposal & Recycling</h3>
+                                <p>We ensure your junk vehicle is disposed of or recycled responsibly, adhering to environmental standards.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Responsible Disposal & Recycling</h3>
+                                <p>We are committed to environmentally responsible practices. Your junk vehicle will be properly disposed of or recycled according to all local and state regulations, ensuring that hazardous materials are handled safely and components are reused when possible.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Any Condition, Any Vehicle</h3>
+                                <p>We remove cars, trucks, vans, and SUVs in any condition – running or not, damaged or intact.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Any Condition, Any Vehicle</h3>
+                                <p>No matter the condition of your vehicle – whether it's running, completely wrecked, or missing parts – we can remove it. We handle cars, trucks, vans, and SUVs of all makes and models, making the process simple for you.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Fair & Transparent Offers</h3>
+                                <p>Get a fair and honest offer for your junk vehicle, with transparent pricing and no hidden fees.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Fair & Transparent Offers</h3>
+                                <p>We believe in honest dealings. You'll receive a fair and transparent offer for your junk vehicle, based on its make, model, and condition, with no hidden fees or surprises. We aim for a straightforward and satisfactory transaction.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item interactive-element">
+                        <div class="service-content">
+                            <div class="service-front">
+                                <h3>Professional & Reliable Service</h3>
+                                <p>Count on Gillette Wyoming Towing for professional, courteous, and reliable junk car removal services.</p>
+                            </div>
+                            <div class="service-back">
+                                <h3>Professional & Reliable Service</h3>
+                                <p>Our team provides professional and reliable junk car removal, ensuring a smooth and respectful process from your initial call to the final pickup. We pride ourselves on courteous service and efficient execution, making your experience stress-free.</p>
+                                <a href="#contact" class="cta-button" onclick="showSection('contact'); return false;">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 40px; color: var(--text-dark);">Ready to get rid of that old car? Contact Gillette Wyoming Towing for fast and friendly junk car removal in Gillette, WY!</p>
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="tel:307-414-6029" class="cta-button">Get a Junk Car Removal Quote</a>
+                </div>
+                </div>
+        </section>
+        <!-- End Individual Service Sections -->
+
+        <section id="about">
+            <h2 class="section-title">About Gillette Wyoming Towing</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Your Trusted Towing Partner in Gillette, WY</h2>
+                    <p>Gillette Wyoming Towing is a locally owned and operated company proudly serving Gillette, Wyoming, and the surrounding communities. With years of dedicated experience, we have built a reputation for rapid response, professional service, and exceptional customer care in the towing and roadside assistance industry.</p>
+                    <p>Our mission is simple: to provide the highest standard of towing and recovery services, ensuring the safety and peace of mind of motorists in their time of need. We understand that vehicle breakdowns and accidents can be stressful, which is why we are committed to delivering prompt, reliable, and damage-free solutions 24 hours a day, 7 days a week.</p>
+                    <p>We believe in transparency, integrity, and open communication. From your initial call to the completion of your service, you can expect clear explanations, honest assessments, and a commitment to your satisfaction. Our team of skilled and certified towing operators is equipped with state-of-the-art tow trucks and recovery gear, dedicated to delivering superior service on every job, big or small.</p>
+                    <p>At Gillette Wyoming Towing, we're not just towing vehicles; we're helping our neighbors and building relationships within our community. We are fully licensed and insured, giving you peace of mind that your vehicle is in capable hands. Choose Gillette Wyoming Towing for a dependable, professional, and friendly roadside experience.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://via.placeholder.com/800x600/CCCCCC/333333?text=Gillette+Towing+Truck" alt="Gillette Wyoming Towing truck on the road in Gillette, Wyoming">
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews">
+            <h2 class="section-title">Customer Reviews & Testimonials</h2>
+            <div class="reviews-section">
+                <div class="review-form-container">
+                    <h3>Leave Us a Review!</h3>
+                    <p style="text-align: center; margin-bottom: 20px; color: var(--text-dark);">Your feedback helps us improve and lets others know about our quality towing service.</p>
+                    <form id="review-submission-form">
+                        <input type="text" id="reviewer-name" placeholder="Your Name" required>
+                        <input type="email" id="reviewer-email" placeholder="Your Email (Optional)">
+
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="5 stars">★</label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">★</label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">★</label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">★</label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">★</label>
+                        </div>
+                        <textarea id="review-message" placeholder="Share your experience with our towing services..." required></textarea>
+                        <button type="submit">Submit Review</button>
+                    </form>
+                </div>
+
+                <div class="existing-reviews" id="existing-reviews-list">
+                    <h3>What Our Valued Customers Say</h3>
+                    <!-- Reviews will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Contact Gillette Wyoming Towing</h2>
+            <div class="contact-form-container">
+                <p style="text-align: center; margin-bottom: 30px; color: var(--text-dark);">Have questions or need immediate towing assistance? Fill out the form below or call us directly!</p>
+                <form action="https://formsubmit.co/d.j.a.schmitz07@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="New Website Contact Form Submission! (Towing)">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <input
+                        type="text"
+                        name="first_name"
+                        placeholder="First Name"
+                        required
+                    >
+
+                    <input
+                        type="text"
+                        name="last_name"
+                        placeholder="Last Name"
+                        required
+                    >
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        required
+                    >
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Phone Number"
+                    >
+
+                    <textarea
+                        name="message"
+                        placeholder="Your Message regarding towing or roadside assistance"
+                    ></textarea>
+
+                    <button type="submit">
+                        Submit
+                    </button>
+                </form>
+            </div>
+            <div class="contact-info-block">
+                <p><strong>24/7 Dispatch:</strong> <a href="tel:307-414-6029">307-414-6029</a></p>
+                <p><strong>Email:</strong> <a href="mailto:d.j.a.schmitz07@gmail.com">d.j.a.schmitz07@gmail.com</a></p>
+                <p><strong>Location:</strong> Serving Gillette, WY and surrounding areas.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Gillette Wyoming Towing</h4>
+                <p>Your trusted partner for all towing and roadside assistance needs in Gillette, Wyoming.</p>
+                <p>&copy; 2024 Gillette Wyoming Towing. All rights reserved.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#home" onclick="showSection('home'); return false;">Home</a>
+                <a href="#emergency-towing" onclick="showSection('emergency-towing'); return false;">Emergency Towing</a>
+                <a href="#roadside-assistance" onclick="showSection('roadside-assistance'); return false;">Roadside Assistance</a>
+                <a href="#vehicle-recovery" onclick="showSection('vehicle-recovery'); return false;">Vehicle Recovery</a>
+                <a href="#flatbed-towing" onclick="showSection('flatbed-towing'); return false;">Flatbed Towing</a>
+                <a href="#heavy-duty-towing" onclick="showSection('heavy-duty-towing'); return false;">Heavy Duty Towing</a>
+                <a href="#motorcycle-towing" onclick="showSection('motorcycle-towing'); return false;">Motorcycle Towing</a>
+                <a href="#long-distance-towing" onclick="showSection('long-distance-towing'); return false;">Long Distance Towing</a>
+                <a href="#junk-car-removal" onclick="showSection('junk-car-removal'); return false;">Junk Car Removal</a>
+                <a href="#about" onclick="showSection('about'); return false;">About Us</a>
+                <a href="#reviews" onclick="showSection('reviews'); return false;">Reviews</a>
+                <a href="#contact" onclick="showSection('contact'); return false;">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>24/7 Dispatch: <a href="tel:307-414-6029">307-414-6029</a></p>
+                <p>Email: <a href="mailto:d.j.a.schmitz07@gmail.com">d.j.a.schmitz07@gmail.com</a></p>
+                <p>Gillette, WY</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Built with passion for Gillette, Wyoming.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            const dropdownParent = document.querySelector('li.dropdown > .nav-link');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            const reviewForm = document.getElementById('review-submission-form');
+            const existingReviewsList = document.getElementById('existing-reviews-list');
+            const serviceItems = document.querySelectorAll('.service-item'); // Select all service items for flip effect
+
+            const heroSection = document.getElementById('home');
+            const heroBanner = heroSection ? heroSection.querySelector('.hero') : null;
+            const serviceBanners = document.querySelectorAll('.service-banner');
+
+            // Default reviews (can be expanded)
+            const defaultReviews = [
+                { name: "Emily S.", rating: 5, text: "Gillette Wyoming Towing was a lifesaver! My car broke down on I-90, and they arrived so quickly. The driver was professional and handled my car with care. Highly recommend their emergency towing service in Gillette!" },
+                { name: "David K.", rating: 5, text: "Had a flat tire on a back road. Called Gillette Wyoming Towing, and they were there in no time. Changed my tire efficiently and got me back on my way. Excellent roadside assistance!" },
+                { name: "Jessica L.", rating: 5, text: "Needed a heavy-duty tow for our commercial truck. Gillette Wyoming Towing handled it flawlessly. Their equipment is top-notch, and the team was very experienced. Great service for large vehicles!" },
+                { name: "Mark T.", rating: 4, text: "Good service overall. Needed a jump-start, and they arrived promptly. The communication was clear. Would use them again for future roadside needs." },
+                { name: "Samantha R.", rating: 5, text: "From the initial call to the final drop-off, Gillette Wyoming Towing was fantastic. They explained everything thoroughly and delivered my car safely to the mechanic. So glad we chose them!" },
+                { name: "Robert L.", rating: 5, text: "Got stuck in a ditch after some snow. Their vehicle recovery team was amazing! They got my truck out without a scratch. True professionals in Gillette." }
+            ];
+
+            // Function to render stars
+            function renderStars(rating) {
+                let stars = '';
+                for (let i = 0; i < 5; i++) {
+                    stars += (i < rating) ? '★' : '☆';
+                }
+                return stars;
+            }
+
+            // Function to load reviews from localStorage or use defaults
+            function loadReviews() {
+                const storedReviews = localStorage.getItem('gilletteWyTowingReviews');
+                return storedReviews ? JSON.parse(storedReviews) : defaultReviews;
+            }
+
+            // Function to save reviews to localStorage
+            function saveReviews(reviews) {
+                localStorage.setItem('gilletteWyTowingReviews', JSON.stringify(reviews));
+            }
+
+            // Function to display reviews
+            function displayReviews() {
+                const reviews = loadReviews();
+                existingReviewsList.innerHTML = '<h3>What Our Valued Customers Say</h3>'; // Clear existing
+                reviews.forEach(review => {
+                    const reviewItem = document.createElement('div');
+                    reviewItem.classList.add('review-item', 'interactive-element');
+                    reviewItem.innerHTML = `
+                        <div class="stars">${renderStars(review.rating)}</div>
+                        <p class="reviewer-name">${review.name}</p>
+                        <p class="review-text">"${review.text}"</p>
+                    `;
+                    existingReviewsList.appendChild(reviewItem);
+                });
+            }
+
+            // Function to handle banner fading on scroll
+            function handleScrollFade() {
+                const scrollPosition = window.scrollY;
+                const fadeStart = 0;
+                const fadeEnd = window.innerHeight * 0.8; // Fade out completely when scrolled 80% of viewport height
+
+                // Hero banner fade
+                if (heroBanner && heroSection.classList.contains('active')) {
+                    let opacity = 1;
+                    if (scrollPosition > fadeStart) {
+                        opacity = 1 - (scrollPosition - fadeStart) / (fadeEnd - fadeStart);
+                        opacity = Math.max(0, opacity);
+                    }
+                    heroBanner.style.opacity = opacity;
+                }
+
+                // Active service banner fade
+                const activeSection = document.querySelector('main section.active');
+                if (activeSection && activeSection.classList.contains('service-page-section')) {
+                    const activeBanner = activeSection.querySelector('.service-banner');
+                    if (activeBanner) {
+                        let opacity = 1;
+                        if (scrollPosition > fadeStart) {
+                            opacity = 1 - (scrollPosition - fadeStart) / (fadeEnd - fadeStart);
+                            opacity = Math.max(0, opacity);
+                        }
+                        activeBanner.style.opacity = opacity;
+                    }
+                }
+            }
+
+            // Function to show a specific section and hide others
+            window.showSection = function(sectionId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // Update active class for navigation links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === sectionId) {
+                        link.classList.add('active');
+                    }
+                    // Also handle active state for parent dropdown if a sub-link is active
+                    if (link.closest('.dropdown') && link.closest('.dropdown').querySelector(`[data-section="${sectionId}"]`)) {
+                        link.closest('.dropdown').querySelector('.nav-link').classList.add('active');
+                    }
+                });
+
+                // Close mobile menu if open
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    // Also close mobile dropdowns
+                    document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+                }
+
+                // Reset opacity for all banners when a new section is shown
+                if (heroBanner) heroBanner.style.opacity = 1;
+                serviceBanners.forEach(banner => banner.style.opacity = 1);
+
+                // Scroll to the top of the main content area, accounting for fixed header
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+
+                // Immediately apply scroll fade if not at top after showing section
+                handleScrollFade();
+            };
+
+            // Event listeners for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const sectionId = this.getAttribute('data-section');
+                    if (sectionId === 'services-parent') { // Prevent direct navigation for dropdown parent
+                        e.preventDefault();
+                        // For mobile, toggle dropdown visibility
+                        if (window.innerWidth <= 768) {
+                            this.closest('.dropdown').classList.toggle('active');
+                        }
+                    } else {
+                        e.preventDefault();
+                        showSection(sectionId);
+                    }
+                });
+            });
+
+            // Hamburger menu toggle
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+
+            // Initial load: show home section and display reviews
+            showSection('home');
+            displayReviews();
+            window.addEventListener('scroll', handleScrollFade);
+
+            // Review form submission handler
+            reviewForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('reviewer-name').value;
+                const email = document.getElementById('reviewer-email').value; // Not used for display, but good to capture
+                const ratingInput = document.querySelector('input[name="rating"]:checked');
+                const rating = ratingInput ? parseInt(ratingInput.value) : 0;
+                const message = document.getElementById('review-message').value;
+
+                if (name && rating && message) {
+                    const newReview = {
+                        name: name,
+                        rating: rating,
+                        text: message
+                    };
+
+                    const reviews = loadReviews();
+                    reviews.unshift(newReview); // Add new review to the beginning
+                    saveReviews(reviews);
+                    displayReviews(); // Re-render all reviews
+
+                    // Clear form
+                    reviewForm.reset();
+                    document.querySelectorAll('.star-rating input').forEach(input => input.checked = false);
+                } else {
+                    alert('Please fill in your name, rating, and review message.');
+                }
+            });
+
+            // Flip card logic for service items
+            serviceItems.forEach(item => {
+                let flipTimeout;
+
+                // Desktop hover
+                item.addEventListener('mouseenter', function() {
+                    clearTimeout(flipTimeout); // Clear any pending flip-back
+                    this.classList.add('flipped');
+                });
+
+                item.addEventListener('mouseleave', function() {
+                    // Add a small delay before flipping back, so quick passes still show the flip
+                    flipTimeout = setTimeout(() => {
+                        this.classList.remove('flipped');
+                    }, 500); // Increased delay to 500ms for a smoother "unflip"
+                });
+
+                // Mobile touch (tap to flip, tap again to flip back)
+                item.addEventListener('touchstart', function(e) {
+                    e.preventDefault(); // Prevent default touch behavior (like scrolling)
+                    // Close any other open cards
+                    serviceItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('flipped')) {
+                            otherItem.classList.remove('flipped');
+                        }
+                    });
+                    this.classList.toggle('flipped');
+                });
+            });
+
+
+            // Mouse particle effect - MODIFIED
+            let isMouseDown = false;
+            let lastParticleTime = 0;
+            const throttleDelay = 100; // Milliseconds, for "twice as slow" delay between particles
+
+            document.addEventListener('mousedown', () => {
+                isMouseDown = true;
+            });
+
+            document.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                const currentTime = new Date().getTime();
+                if (isMouseDown && (currentTime - lastParticleTime > throttleDelay)) {
+                    lastParticleTime = currentTime;
+
+                    const particle = document.createElement('div');
+                    particle.classList.add('mouse-particle');
+                    document.body.appendChild(particle);
+
+                    const size = Math.random() * 40 + 20; // Random size between 20px and 60px (4x bigger)
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${e.clientX - size / 2}px`;
+                    particle.style.top = `${e.clientY - size / 2}px`;
+
+                    particle.addEventListener('animationend', () => {
+                        particle.remove();
+                    });
+                }
+            });
+        });
+    </script>
